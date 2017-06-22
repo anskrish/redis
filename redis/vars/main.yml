@@ -1,0 +1,6 @@
+---
+source_location: "/root/source"
+linux:
+  packages:
+    - 'build-essential'
+    - 'tcl8.5'

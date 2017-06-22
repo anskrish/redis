@@ -1,0 +1,5 @@
+---
+- name: Install and configure redis package from source
+  hosts: redis
+  roles:
+      - redis

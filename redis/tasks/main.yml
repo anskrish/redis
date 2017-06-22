@@ -1,0 +1,33 @@
+---
+- name: Ubuntu | Update the Ubuntu machine and install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ linux.packages }}"
+  when: ansible_distribution == 'Ubuntu'
+  
+- name: Create a folder for source
+  file: path={{ source_location }} state=directory
+
+- name: Download Redis source file
+  get_url:
+    url: http://download.redis.io/releases/redis-stable.tar.gz
+    dest: "{{ source_location }}"
+- name: untar the source file
+  command: tar xzf "{{ source_location }}"/redis-stable.tar.gz -C "{{ source_location }}"
+
+- name: Compile the source code
+  make:
+    chdir: "{{ source_location }}/redis-stable"
+- name: install the redis source code
+  make:
+    chdir: "{{ source_location }}/redis-stable"
+    target: install
+  become: yes
+
+- name: run the install script
+  shell: "{{ source_location }}/redis-stable/utils/install_server.sh"
+  notify:
+    - start the redis service
+
