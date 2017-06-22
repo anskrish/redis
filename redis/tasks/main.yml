@@ -12,7 +12,7 @@
 
 - name: Download Redis source file
   get_url:
-    url: http://download.redis.io/releases/redis-stable.tar.gz
+    url: "{{ source_url }}"
     dest: "{{ source_location }}"
 - name: untar the source file
   command: tar xzf "{{ source_location }}"/redis-stable.tar.gz -C "{{ source_location }}"
